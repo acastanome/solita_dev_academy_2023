@@ -17,7 +17,12 @@ const results = [];
 
 fs.createReadStream('./assets/journey_data/2021-01.csv')
 	.pipe(csv({}))
-	.on('data', (data) => results.push(data))
+	.on('data', (data) => {
+		//validate, no empty columns:
+		if (Object.keys(data).length !== 0) {
+			results.push(data);
+		}
+	})
 	.on('error', (e) => console.log(e))
 	.on('end', () => console.log(results));
 // END get data
