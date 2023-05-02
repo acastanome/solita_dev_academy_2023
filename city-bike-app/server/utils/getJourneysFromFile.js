@@ -1,14 +1,25 @@
 const csv = require('csv-parser');
 const fs = require('fs');
+const { getStationsFromFile } = require('./getStationsFromFile');
 
 const isValidDate = (dateString) => {
 	if (isNaN(Date.parse(dateString))) return false;
 	return true;
 };
 
-// const isValidStation = (stationName, stationId) => {};
+const isValidStation = (stationName, stationId, allStations) => {
+	const stations = allStations.filter(
+		(station) =>
+			station['ID'] === stationId &&
+			(station['Nimi'] === stationName ||
+				station['Namn'] === stationName ||
+				station['Name'] === stationName)
+	);
+	if (stations.length > 0) return true;
+	else return false;
+};
 
-const isValidJourney = (journey) => {
+const isValidJourney = (journey, allStations) => {
 	if (!isValidDate(journey.Departure)) return false;
 	if (!isValidDate(journey.Return)) return false;
 
@@ -18,14 +29,30 @@ const isValidJourney = (journey) => {
 	if (timeDiff < 10 || timeDiff !== parseInt(journey['Duration (sec.)']))
 		return false;
 
-	// Add validation: Is covered distance >= 10m? Do station name and id match? (swedish names too) Is the distance between coordinates same as the given covered distance? (beware units)
 	if (parseInt(journey['Covered distance (m)']) < 10) return false;
-	// if (!isValidDistance(journey))
+
+	if (
+		!isValidStation(
+			journey['Departure station name'],
+			journey['Departure station id'],
+			allStations
+		) ||
+		!isValidStation(
+			journey['Return station name'],
+			journey['Return station id'],
+			allStations
+		)
+	)
+		return false;
 
 	return true;
 };
 
-const getJourneysFromFile = (filename) => {
+const getJourneysFromFile = async (filename) => {
+	const allStations = await getStationsFromFile(
+		'./assets/bike_stations_data/Helsingin_ja_Espoon_asemat_avoin.csv'
+	);
+
 	return new Promise((resolve, reject) => {
 		const results = [];
 
@@ -43,7 +70,7 @@ const getJourneysFromFile = (filename) => {
 				])
 			)
 			.on('data', (data) => {
-				if (isValidJourney(data) === true) {
+				if (isValidJourney(data, allStations) === true) {
 					results.push(data);
 				}
 			})

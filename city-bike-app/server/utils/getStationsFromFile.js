@@ -6,7 +6,23 @@ const getStationsFromFile = (filename) => {
 		const results = [];
 
 		fs.createReadStream(filename)
-			.pipe(csv())
+			.pipe(
+				csv([
+					'FID',
+					'ID',
+					'Nimi',
+					'Namn',
+					'Name',
+					'Osoite',
+					'Adress',
+					'Kaupunki',
+					'Stad',
+					'Operaattor',
+					'Kapasiteet',
+					'x',
+					'y',
+				])
+			)
 			.on('data', (data) => {
 				results.push(data);
 			})
