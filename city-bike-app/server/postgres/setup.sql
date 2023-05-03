@@ -5,7 +5,7 @@ CREATE TABLE IF NOT EXISTS stations (
 	namn VARCHAR(1000),
 	name VARCHAR(1000) NOT NULL,
 	osoite VARCHAR(1000) NOT NULL,
-	adress VARCHAR(1000),
+	adress VARCHAR(1000) UNIQUE,
 	kaupunki VARCHAR(1000),
 	stad VARCHAR(1000),
 	operaattor VARCHAR(1000),
