@@ -24,7 +24,23 @@ const getStationsFromFile = (filename) => {
 				])
 			)
 			.on('data', (data) => {
-				results.push(data);
+				const parsedId = parseInt(data.ID);
+				const parsedKapasiteet = parseInt(data.Kapasiteet);
+				const parsedX = Number(data.x);
+				const parsedY = Number(data.y);
+				if (
+					parsedId >= 0 &&
+					parsedKapasiteet >= 0 &&
+					parsedX !== NaN &&
+					parsedY !== NaN
+				)
+					results.push({
+						...data,
+						ID: parsedId,
+						Kapasiteet: parsedKapasiteet,
+						x: parsedX,
+						y: parsedY,
+					});
 			})
 			.on('error', (e) => reject(e))
 			.on('end', () => resolve(results));
