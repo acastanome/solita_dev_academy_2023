@@ -1,58 +1,33 @@
 const csv = require('csv-parser');
 const fs = require('fs');
-const { getStationsFromFile } = require('./getStationsFromFile');
+
+const isValidPositiveInt = (someString) => {
+	const nb = parseInt(someString);
+	if (isNaN(nb) || nb < 0) return false;
+	return true;
+};
 
 const isValidDate = (dateString) => {
 	if (isNaN(Date.parse(dateString))) return false;
 	return true;
 };
 
-const isValidStation = (stationName, stationId, allStations) => {
-	const stations = allStations.filter(
-		(station) =>
-			station['ID'] === stationId &&
-			(station['Nimi'] === stationName ||
-				station['Namn'] === stationName ||
-				station['Name'] === stationName)
-	);
-	if (stations.length > 0) return true;
-	else return false;
-};
-
-const isValidJourney = (journey, allStations) => {
+const isValidJourneyData = (journey) => {
 	if (!isValidDate(journey.Departure)) return false;
 	if (!isValidDate(journey.Return)) return false;
+	if (!isValidPositiveInt(journey['Departure station id'])) return false;
+	if (!isValidPositiveInt(journey['Return station id'])) return false;
+	if (!isValidPositiveInt(journey['Covered distance (m)'])) return false;
+	if (!isValidPositiveInt(journey['Duration (sec.)'])) return false;
 
 	let timeDiff =
 		(Date.parse(journey.Return) - Date.parse(journey.Departure)) / 1000;
-
-	if (timeDiff < 10 || timeDiff !== parseInt(journey['Duration (sec.)']))
-		return false;
-
-	if (parseInt(journey['Covered distance (m)']) < 10) return false;
-
-	if (
-		!isValidStation(
-			journey['Departure station name'],
-			journey['Departure station id'],
-			allStations
-		) ||
-		!isValidStation(
-			journey['Return station name'],
-			journey['Return station id'],
-			allStations
-		)
-	)
-		return false;
+	if (timeDiff !== parseInt(journey['Duration (sec.)'])) return false;
 
 	return true;
 };
 
 const getJourneysFromFile = async (filename) => {
-	const allStations = await getStationsFromFile(
-		'./assets/bike_stations_data/Helsingin_ja_Espoon_asemat_avoin.csv'
-	);
-
 	return new Promise((resolve, reject) => {
 		const results = [];
 
@@ -70,8 +45,16 @@ const getJourneysFromFile = async (filename) => {
 				])
 			)
 			.on('data', (data) => {
-				if (isValidJourney(data, allStations) === true) {
-					results.push(data);
+				if (isValidJourneyData(data) === true) {
+					results.push({
+						...data,
+						Departure: new Date(data.Departure),
+						Return: new Date(data.Return),
+						'Departure station id': parseInt(data['Departure station id']),
+						'Return station id': parseInt(data['Return station id']),
+						'Covered distance (m)': parseInt(data['Covered distance (m)']),
+						'Duration (sec.)': parseInt(data['Duration (sec.)']),
+					});
 				}
 			})
 			.on('error', (e) => reject(e))

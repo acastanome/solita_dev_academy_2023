@@ -1,4 +1,3 @@
-const db = require('../db');
 const { addStationToDb } = require('../utils/addStationToDb');
 const { getStationsFromFile } = require('../utils/getStationsFromFile');
 const { validateSatation } = require('../utils/validateStation');

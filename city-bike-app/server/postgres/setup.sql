@@ -19,9 +19,9 @@ CREATE TABLE IF NOT EXISTS journeys (
 	departure_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 	return_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   	departure_station_id INT NOT NULL,
-  	departure_station_name VARCHAR(1000) NOT NULL,
+  	departure_station_name VARCHAR(1000),
   	return_station_id INT NOT NULL,
-	return_station_name VARCHAR(1000) NOT NULL, 
+	return_station_name VARCHAR(1000), 
 	covered_distance_meters INT DEFAULT 0,
 	duration_seconds INT DEFAULT 0
 );
