@@ -1,39 +1,18 @@
-import './App.css';
-import JourneyItem from './components/JourneyItem';
-import JourneysList from './components/JourneysList';
-import Journey from './types/journey';
+import { Navigate, Route, Routes } from 'react-router-dom';
+import Landing from './routes/Landing';
+import Journeys from './routes/Journeys';
 
 const App = () => {
-	const journey1 = {
-		departure: new Date('2021-05-31 23:52:03'),
-		return: new Date('2021-06-01 00:15:16'),
-		departureStationId: 116,
-		departureStationName: 'Linnanmäki',
-		returnStationId: 117,
-		returnStationName: 'Brahen puistikko',
-		coveredDistanceMeters: 3344,
-		durationSeconds: 1393,
-	};
-
-	const journey2 = {
-		departure: new Date('2021-05-31 23:52:03'),
-		return: new Date('2021-06-01 00:15:16'),
-		departureStationId: 116,
-		departureStationName: 'Linnanmäki2',
-		returnStationId: 117,
-		returnStationName: 'Brahen puistikko3',
-		coveredDistanceMeters: 3344,
-		durationSeconds: 1393,
-	};
-
-	let allJourneys: Journey[];
-	// allJourneys = [];
-	allJourneys = [journey1, journey2];
-
 	return (
 		<div>
-			<p>List of journeys:</p>
-			<JourneysList journeys={allJourneys}></JourneysList>
+			<Routes>
+				<Route path='/journeys' element={<Journeys />} />
+				{/* <Route path='/journeys/:id' element={<JourneyPage id={journeyId} />} />
+				<Route path='/stations' element={<Stations />} />
+				<Route path='/stations/:id' element={<StationPage id={stationId} />} /> */}
+				<Route path='/' element={<Landing />} />
+				<Route path='*' element={<Navigate replace to='/' />} />
+			</Routes>
 		</div>
 	);
 };
