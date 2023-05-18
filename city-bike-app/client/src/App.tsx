@@ -1,10 +1,12 @@
 import { Navigate, Route, Routes } from 'react-router-dom';
 import Landing from './routes/Landing';
 import Journeys from './routes/Journeys';
+import Navbar from './components/Navbar';
 
 const App = () => {
 	return (
 		<div>
+			<Navbar />
 			<Routes>
 				<Route path='/journeys' element={<Journeys />} />
 				{/* <Route path='/journeys/:id' element={<JourneyPage id={journeyId} />} />
