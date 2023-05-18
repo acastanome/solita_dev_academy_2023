@@ -1,26 +1,41 @@
-import React from 'react';
-import logo from './logo.svg';
 import './App.css';
+import JourneyItem from './components/JourneyItem';
+import JourneysList from './components/JourneysList';
+import Journey from './types/journey';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
-}
+const App = () => {
+	const journey1 = {
+		departure: new Date('2021-05-31 23:52:03'),
+		return: new Date('2021-06-01 00:15:16'),
+		departureStationId: 116,
+		departureStationName: 'Linnanmäki',
+		returnStationId: 117,
+		returnStationName: 'Brahen puistikko',
+		coveredDistanceMeters: 3344,
+		durationSeconds: 1393,
+	};
+
+	const journey2 = {
+		departure: new Date('2021-05-31 23:52:03'),
+		return: new Date('2021-06-01 00:15:16'),
+		departureStationId: 116,
+		departureStationName: 'Linnanmäki2',
+		returnStationId: 117,
+		returnStationName: 'Brahen puistikko3',
+		coveredDistanceMeters: 3344,
+		durationSeconds: 1393,
+	};
+
+	let allJourneys: Journey[];
+	// allJourneys = [];
+	allJourneys = [journey1, journey2];
+
+	return (
+		<div>
+			<p>List of journeys:</p>
+			<JourneysList journeys={allJourneys}></JourneysList>
+		</div>
+	);
+};
 
 export default App;
