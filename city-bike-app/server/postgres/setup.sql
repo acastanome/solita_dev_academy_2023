@@ -9,7 +9,7 @@ CREATE TABLE IF NOT EXISTS stations (
 	kaupunki VARCHAR(1000),
 	stad VARCHAR(1000),
 	operaattor VARCHAR(1000),
-	kapasiteet VARCHAR(1000),
+	kapasiteet INT NOT NULL DEFAULT 0,
 	x NUMERIC,
 	y NUMERIC
 );
