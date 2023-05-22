@@ -1,4 +1,5 @@
 type Journey = {
+	id: Number;
 	departure: Date;
 	return: Date;
 	departureStationId: number;
