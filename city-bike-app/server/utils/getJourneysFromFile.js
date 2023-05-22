@@ -51,7 +51,13 @@ const getJourneysFromFile = async (filename) => {
 						Departure: new Date(data.Departure),
 						Return: new Date(data.Return),
 						'Departure station id': parseInt(data['Departure station id']),
+						'Departure station name': data['Departure station name']
+							.normalize()
+							.replace(/\s+/g, ' '),
 						'Return station id': parseInt(data['Return station id']),
+						'Return station name': data['Return station name']
+							.normalize()
+							.replace(/\s+/g, ' '),
 						'Covered distance (m)': parseInt(data['Covered distance (m)']),
 						'Duration (sec.)': parseInt(data['Duration (sec.)']),
 					});
