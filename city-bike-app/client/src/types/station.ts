@@ -8,7 +8,7 @@ type Station = {
 	kaupunki: string | null;
 	stad: string | null;
 	operaattor: string | null;
-	Kapasiteet: number;
+	kapasiteet: number;
 	x: number;
 	y: number;
 };
