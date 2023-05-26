@@ -1,45 +1,70 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import JourneysList from '../components/JourneysList';
+import journeysService from '../services/journeys';
+import Journey from '../types/journey';
+import QueryParams from '../types/queryParams';
+import Pagination from '../components/Pagination';
 
 const Journeys = () => {
-	// const journey1 = {
-	// 	departure: new Date('2021-05-31 23:52:03'),
-	// 	return: new Date('2021-06-01 00:15:16'),
-	// 	departureStationId: 116,
-	// 	departureStationName: 'Linnanmäki',
-	// 	returnStationId: 117,
-	// 	returnStationName: 'Brahen puistikko',
-	// 	coveredDistanceMeters: 3344,
-	// 	durationSeconds: 1393,
-	// };
+	const [page, setPage] = useState(1);
+	const [totalPages, setTotalPages] = useState(1);
+	const [allJourneys, setAllJourneys] = useState<Journey[]>([]);
+	const [sortAndFilter, setSortAndFilter] = useState<QueryParams>({
+		// station: '',
+		// journey: '',
+		query_term: '',
+		limit: 20,
+		// sort_by: 'departure_station', //departure_station, return_station, covered_distance, duration_seconds
+		// order_by: 'desc',
+	});
 
-	// const journey2 = {
-	// 	departure: new Date('2021-05-31 23:52:03'),
-	// 	return: new Date('2021-06-01 00:15:16'),
-	// 	departureStationId: 116,
-	// 	departureStationName: 'Linnanmäki2',
-	// 	returnStationId: 117,
-	// 	returnStationName: 'Brahen puistikko3',
-	// 	coveredDistanceMeters: 3344,
-	// 	durationSeconds: 1393,
-	// };
+	useEffect(() => {
+		const getAllJourneys = async () => {
+			const journeyData = await journeysService.getFilteredJourneys(
+				sortAndFilter
+			);
+			if (journeyData.rowCount > 0) {
+				setAllJourneys(journeyData.rows);
+				setTotalPages(
+					Math.ceil(journeyData.rows[0].full_count / sortAndFilter.limit)
+				);
+			}
+		};
+		getAllJourneys();
+	}, [sortAndFilter]);
 
-	// let allJourneys: Journey[];
-	// // allJourneys = [];
-	// allJourneys = [journey1, journey2];
+	const handleNextClick = async () => {
+		const newJourneyData = await journeysService.getPageFilteredJourneys(
+			page + 1,
+			sortAndFilter
+		);
+		if (newJourneyData.rowCount > 0) {
+			setAllJourneys(newJourneyData.rows);
+			setPage((prev) => prev + 1);
+		}
+	};
 
-	const [allJourneys, setAllJourneys] = useState([]);
+	const handlePreviousClick = async () => {
+		const newJourneyData = await journeysService.getPageFilteredJourneys(
+			page - 1,
+			sortAndFilter
+		);
+		if (newJourneyData.rowCount > 0) {
+			setAllJourneys(newJourneyData.rows);
+			setPage((prev) => prev - 1);
+		}
+	};
 
-	// useEffect(() => {
-	// 	const getAllJourneys = async () => {
-	// 		const allJ = await journeysService.getAllJourneys();
-	// 		console.log(allJ);
-	// 	};
-	// }, []);
 	return (
 		<div className='flex flex-col h-screen'>
 			<p>List of journeys:</p>
 			<JourneysList journeys={allJourneys} />
+			<Pagination
+				page={page}
+				totalPages={totalPages}
+				handleNextClick={handleNextClick}
+				handlePreviousClick={handlePreviousClick}
+			/>
 		</div>
 	);
 };
