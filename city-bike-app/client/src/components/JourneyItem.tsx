@@ -22,11 +22,11 @@ const JourneyItem: React.FC<{ journey: Journey }> = (props) => {
 					{props.journey.returnStationName}
 				</li>
 				<li>
-					<b>Distance km: </b>
+					<b>Distance (km): </b>
 					{distanceKm}
 				</li>
 				<li>
-					<b>Duration min: </b>
+					<b>Duration (min): </b>
 					{durationMin}:{durationExtraSeconds}
 				</li>
 			</ul>
