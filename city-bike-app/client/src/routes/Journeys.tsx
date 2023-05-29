@@ -41,6 +41,7 @@ const Journeys = () => {
 		if (newJourneyData?.rowCount > 0) {
 			setAllJourneys(newJourneyData.rows);
 			setPage((prev) => prev + 1);
+			window.scrollTo({ top: 0 });
 		}
 	};
 
@@ -52,6 +53,7 @@ const Journeys = () => {
 		if (newJourneyData?.rowCount > 0) {
 			setAllJourneys(newJourneyData.rows);
 			setPage((prev) => prev - 1);
+			window.scrollTo({ top: 0 });
 		}
 	};
 
