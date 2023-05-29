@@ -1,19 +1,19 @@
 const Pagination: React.FC<{
 	page: number;
 	totalPages: number;
-	handlePreviousClick: React.MouseEventHandler;
-	handleNextClick: React.MouseEventHandler;
+	onPreviousClick: React.MouseEventHandler;
+	onNextClick: React.MouseEventHandler;
 }> = (props) => {
 	return (
 		<div>
 			{props.page - 1 > 0 ? (
-				<button onClick={props.handlePreviousClick}>Previous</button>
+				<button onClick={props.onPreviousClick}>Previous</button>
 			) : (
 				<></>
 			)}
 			<span>${props.page}</span>
 			{props.page + 1 <= props.totalPages ? (
-				<button onClick={props.handleNextClick}>Next</button>
+				<button onClick={props.onNextClick}>Next</button>
 			) : (
 				<></>
 			)}
