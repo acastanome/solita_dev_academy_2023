@@ -88,16 +88,36 @@ journeysRouter.post('/', async (req, res) => {
 
 journeysRouter.get('/populateDatabase', async (req, res) => {
 	try {
-		const allJourneys = await getJourneysFromFile(
+		const journeys5 = await getJourneysFromFile(
 			'./assets/journey_data/2021-05.csv'
 		);
-
-		allJourneys.forEach(async (journey) => {
+		journeys5.forEach(async (journey) => {
 			if (isValidJourney(journey)) {
 				await addJourneyToDb(journey);
 			}
 		});
-		res.status(200).json({ msg: 'Populated database with valid journeys' });
+		const journeys6 = await getJourneysFromFile(
+			'./assets/journey_data/2021-06.csv'
+		);
+		journeys6.forEach(async (journey) => {
+			if (isValidJourney(journey)) {
+				await addJourneyToDb(journey);
+			}
+		});
+		const journeys7 = await getJourneysFromFile(
+			'./assets/journey_data/2021-07.csv'
+		);
+		journeys7.forEach(async (journey) => {
+			if (isValidJourney(journey)) {
+				await addJourneyToDb(journey);
+			}
+		});
+
+		res
+			.status(200)
+			.json({
+				msg: 'Populating database with valid journeys. Please wait a few minutes',
+			});
 	} catch (e) {
 		console.log('Database journeys population error: ', e);
 		res.status(200).json({ error: 'Database population encountered an error' });
