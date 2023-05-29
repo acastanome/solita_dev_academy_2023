@@ -3,14 +3,16 @@ import Landing from './routes/Landing';
 import Journeys from './routes/Journeys';
 import Stations from './routes/Stations';
 import Navbar from './components/Navbar';
+import { Toaster } from 'react-hot-toast';
 
 const App = () => {
 	return (
 		<div>
 			<Navbar />
+			<Toaster position='top-center' reverseOrder={false} />
 			<Routes>
 				<Route path='/journeys' element={<Journeys />} />
-				{/* <Route path='/stations' element={<Stations />} /> */}
+				<Route path='/stations' element={<Stations />} />
 				{/* <Route path='/journeys/:id' element={<JourneyPage id={journeyId} />} />
 				<Route path='/stations/:id' element={<StationPage id={stationId} />} /> */}
 				<Route path='/' element={<Landing />} />
