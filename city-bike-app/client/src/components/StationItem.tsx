@@ -1,8 +1,14 @@
 import Station from '../types/station';
 
-const StationItem: React.FC<{ station: Station }> = (props) => {
+const StationItem: React.FC<{
+	station: Station;
+	onItemClick: () => void;
+}> = (props) => {
 	return (
-		<li className='max-w-screen-md h-max text-blue-950 py-2 px-4 rounded border md:border-blue-300 hover:bg-blue-100'>
+		<li
+			onClick={props.onItemClick}
+			className='max-w-screen-md h-max text-blue-950 py-2 px-4 rounded border md:border-blue-300 hover:bg-blue-100 hover:cursor-pointer'
+		>
 			<ul>
 				<li>
 					<b>Station name: </b>
