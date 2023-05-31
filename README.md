@@ -25,6 +25,7 @@ React.js, TailwindCSS, Node.js, PostgreSQL.
 ### Setting up the database:
 
 - Postgres must be installed in the computer. If not, it can be installed with brew: In the terminal, run the command "brew install postgresql".
+- Make sure there is no databases called solita, containing tables called stations or journeys.
 - Create db: "createdb solita"
 - Connect to db: "psql solita"
 - Create db tables: Once connected to the db, copy contents of setup.sql file (https://github.com/acastanome/solita_dev_academy_2023/blob/main/city-bike-app/server/postgres/setup.sql)
