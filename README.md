@@ -56,9 +56,6 @@ Finally, the problem was solved by normalizing whitespaces with regex.
 - In the .csv files many stations don't have a value for Kaupunki, Stad or Operaattor. They are still considered valid stations.
 
   - Stations names and id’s from the journey .csv files dont always match those in the stations .csv. This seems to be caused by stations being renamed. Journeys where the station names and id's don't match both the name and id for a valid station were considered invalid.
-  - Low to none maintenance from Schibsted's part
-
-- Because of time constraints, we will focus on the rating system from the user perspective, developing an MVP frontend.
 
 ### Station List:
 
