@@ -16,7 +16,6 @@ const StationPage: React.FC<{ id: string | undefined }> = (props) => {
 			if (props.id !== undefined) {
 				const id = parseInt(props.id);
 				const stationData = await stationsService.getStationById(id);
-				console.log(stationData);
 				if (stationData.station) {
 					setStation(stationData.station);
 					setPopularDepartureStation(stationData.popularDepartureStations);
