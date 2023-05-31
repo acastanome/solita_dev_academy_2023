@@ -5,13 +5,13 @@ const Pagination: React.FC<{
 	onNextClick: React.MouseEventHandler;
 }> = (props) => {
 	return (
-		<div>
+		<div className='flex flex-row space-x-1 p-1 self-center'>
 			{props.page - 1 > 0 ? (
 				<button onClick={props.onPreviousClick}>Previous</button>
 			) : (
 				<></>
 			)}
-			<span>${props.page}</span>
+			{props.totalPages > 1 ? <span>{props.page}</span> : <></>}
 			{props.page + 1 <= props.totalPages ? (
 				<button onClick={props.onNextClick}>Next</button>
 			) : (
