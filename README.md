@@ -1,6 +1,6 @@
 # Solita_dev_academy_2023
 
-Assignment for Solita's Dev Academy 2023, by Alba Castaño
+Pre-assignment for Solita's Dev Academy 2023, by Alba Castaño
 
 ## Stack:
 
@@ -40,27 +40,20 @@ React.js, TailwindCSS, Node.js, PostgreSQL.
 
 ## The assignment:
 
-### Especial note:
-
-When validating the journeys, some stations would be considered as invalid when comparing the names with the valid stations. One such example is Vallilan varikko station.
-I tried to compare the length, and looked into encoding issues, normalizing the strings. Nothing seemed to work. After investigating the problem in HSL's page (https://public-transport-hslhrt.opendata.arcgis.com/datasets/helsingin-ja-espoon-kaupunkipyöräasemat-avoin/explore?location=60.194920%2C24.964426%2C15.27), it became clear they have the same problem, as the station can be found by searching the address, and shows in the map, but can't be found from searching it's name.
-Finally, the problem was solved by normalizing whitespaces with regex.
-
 ### Data import:
 
 - All recommended features were implemented.
 - Additionally, during data validation the following was taken to account:
 
-  - Stations can have the same adress. (HSL data)
-
-- In the .csv files many stations don't have a value for Kaupunki, Stad or Operaattor. They are still considered valid stations.
-
+  - Stations can have the same address. (HSL data)
+  - In the .csv files many stations don't have a value for Kaupunki, Stad or Operaattor. They are still considered valid stations.
   - Stations names and id’s from the journey .csv files dont always match those in the stations .csv. This seems to be caused by stations being renamed. Journeys where the station names and id's don't match both the name and id for a valid station were considered invalid.
 
 ### Station List:
 
 - Recommended and additional features were implemented. Search can be done for a stations name, address or city.
 - When a station doesn't have a value for the city, it will be displayed as empty.
+- When searching for 'sd', stations with no value for Kaupunki will be returned.
 
 ### Single Station View:
 
@@ -72,6 +65,9 @@ Finally, the problem was solved by normalizing whitespaces with regex.
 - Recommended features, as well as additional: pagination, searching (a station name or address) and filtering (by departure station).
 - When a station doesn't have a value for the city, it will be displayed as empty.
 
-### Search:
+## 🍾  Especial note:
 
-- When searching for 'sd', stations with no value for Kaupunki will be returned.
+When validating the journeys, some stations would be considered as invalid when comparing the names with the valid stations. One such example is Vallilan varikko station.
+I tried to compare the length, and looked into encoding issues, normalizing the strings. Nothing seemed to work.
+After investigating the problem in HSL's page (https://public-transport-hslhrt.opendata.arcgis.com/datasets/helsingin-ja-espoon-kaupunkipyöräasemat-avoin/explore?location=60.194920%2C24.964426%2C15.27), it became clear they have the same problem, as the station can be found by searching the address, and shows in the map, but can't be found from searching it's name.
+Finally, the problem was solved by normalizing whitespaces with regex.
