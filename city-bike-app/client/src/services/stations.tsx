@@ -33,5 +33,19 @@ const getPageFilteredStations = async (
 	}
 };
 
+const getStationById = async (id: number) => {
+	try {
+		const response = await axios.get(`${baseUrl}/id/${id}`);
+		return response.data;
+	} catch (error) {
+		console.log('getStationById error: ', error);
+	}
+};
+
 // eslint-disable-next-line import/no-anonymous-default-export
-export default { getAllStations, getFilteredStations, getPageFilteredStations };
+export default {
+	getAllStations,
+	getFilteredStations,
+	getPageFilteredStations,
+	getStationById,
+};

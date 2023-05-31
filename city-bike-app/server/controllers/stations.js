@@ -5,6 +5,77 @@ const { validateSatation } = require('../utils/validateStation');
 
 const stationsRouter = require('express').Router();
 
+stationsRouter.get('/id/:id', async (req, res) => {
+	const stationId = req.params.id;
+
+	if (isNaN(stationId)) {
+		return res.status(200).json({ error: 'Id is not a number' });
+	} else {
+		try {
+			const data_station = await db.query(
+				`SELECT station_id AS "stationId", nimi, namn, name, osoite, adress, kaupunki, stad, operaattor, kapasiteet, x, y FROM stations WHERE station_id = $1`,
+				[stationId]
+			);
+			const station = data_station.rows[0];
+
+			const data_journey_counts = await db.query(
+				`SELECT
+				(SELECT count(*) FROM journeys WHERE departure_station_id  = $1) AS departures,
+				(SELECT count(*) FROM journeys WHERE return_station_id  = $1) AS returns`,
+				[stationId]
+			);
+			const journey_counts = data_journey_counts.rows[0];
+
+			const data_return_stations = await db.query(
+				`SELECT
+				popular_return_stations.name,
+				popular_return_stations.count
+				FROM
+				(
+					SELECT
+					return_station_name AS name,
+					count(*) AS count
+					FROM journeys
+					WHERE departure_station_id  = $1
+					GROUP BY name
+					ORDER BY count DESC
+					LIMIT 5
+					) AS popular_return_stations`,
+				[stationId]
+			);
+			const popular_return_stations = data_return_stations.rows;
+
+			const data_departure_stations = await db.query(
+				`SELECT
+				popular_departure_stations.name,
+				popular_departure_stations.count
+				FROM
+				(
+					SELECT
+					departure_station_name AS name,
+					count(*) AS count
+					FROM journeys
+					WHERE return_station_id  = $1
+					GROUP BY name
+					ORDER BY count DESC
+					LIMIT 5
+					) AS popular_departure_stations`,
+				[stationId]
+			);
+			const popular_departure_stations = data_departure_stations.rows;
+
+			res.status(200).json({
+				station,
+				journeyCounts: journey_counts,
+				popularDepartureStations: popular_departure_stations,
+				popularReturnStations: popular_return_stations,
+			});
+		} catch (e) {
+			console.log(e);
+		}
+	}
+});
+
 stationsRouter.get('/', async (req, res) => {
 	try {
 		const data = await db.query(
