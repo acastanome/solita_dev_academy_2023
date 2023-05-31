@@ -16,6 +16,12 @@ React.js, TailwindCSS, Node.js, PostgreSQL.
   PGHOST=localhost
   PGDATABASE=solita
 
+- Add the following files to city-bike-app/server/assets/journey_data directory:
+  https://dev.hsl.fi/citybikes/od-trips-2021/2021-05.csv named as 2021-05.csv
+  https://dev.hsl.fi/citybikes/od-trips-2021/2021-06.csv named as 2021-06.csv
+  https://dev.hsl.fi/citybikes/od-trips-2021/2021-07.csv named as 2021-07.csv
+  Delete the file 2021-01.csv
+
 ### Setting up the database:
 
 - Postgres must be installed in the computer. If not, it can be installed with brew: In the terminal, run the command "brew install postgresql".
@@ -26,6 +32,8 @@ React.js, TailwindCSS, Node.js, PostgreSQL.
 ### Running the project:
 
 - In city-bike-app/server directory, run the command "npm install". After that, run the command "npm run dev".
+- In chrome, go to http://localhost:3001/stations/populateDatabase to add the stations from the .csv file to the database. This will take a couple of minutes. To be sure, please wait 3min before going to the next step. There should be 457 stations in the db table.
+- In chrome, go to http://localhost:3001/journeys/populateDatabase to add the journeys from the .csv files to the database. This will take a couple of minutes. To be sure, please wait 3min before going to the next step. There should be 113558 journeys in the db table.
 - In city-bike-app/client directory, run the command "npm install". After that, run the command "npm start".
 - The previous step should open your browser, if it doesn't, go to http://localhost:3000/
 
@@ -51,8 +59,19 @@ Finally, the problem was solved by normalizing whitespaces with regex.
 
 - Because of time constraints, we will focus on the rating system from the user perspective, developing an MVP frontend.
 
-### View:
+### Station List:
 
+- Recommended and additional features were implemented. Search can be done for a stations name, address or city.
+- When a station doesn't have a value for the city, it will be displayed as empty.
+
+### Single Station View:
+
+- Can be accessed by clicking on a station from the station list.
+- Recommended features, as well as additional: Top 5 most popular return stations for journeys starting from the station, and top 5 most popular departure stations for journeys ending at the station.
+
+### Journey List View:
+
+- Recommended features, as well as additional: pagination, searching (a station name or address) and filtering (by departure station).
 - When a station doesn't have a value for the city, it will be displayed as empty.
 
 ### Search:
